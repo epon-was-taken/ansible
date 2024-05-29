@@ -1,0 +1,11 @@
+- name: Create User Accounts
+  ansible.builtin.user:
+    name: "{{ item.key }}"
+    password: "{{ item.value.password }}"
+    shell: "{{ item.value.shell }}"
+    groups: "{{ item.value.groups | join(',') }}"
+    create_home: "{{ item.value.createHome }}"
+    state: present
+  loop: "{{ users | dict2items }}"
+  loop_control:
+    label: "{{ item.key }}"

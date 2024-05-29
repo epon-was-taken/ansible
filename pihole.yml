@@ -1,0 +1,7 @@
+---
+
+- name: Pi-hole Setup Playbook
+  hosts: pihole
+  roles:
+    - core
+    - pihole

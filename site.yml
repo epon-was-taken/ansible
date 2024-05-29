@@ -1,0 +1,4 @@
+---
+
+- name: Import Pi-hole playbook
+  ansible.builtin.import_playbook: pihole.yml
