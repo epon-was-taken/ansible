@@ -1,0 +1,13 @@
+[Unit]
+Description=Pihole Service
+PartOf=docker.service
+After=docker.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/bin/bash -c "docker compose -f /root/pihole/docker-compose.yml up -d"
+ExecStop=/bin/bash -c "docker compose -f /root/pihole/docker-compose.yml down"
+
+[Install]
+WantedBy=multi-user.target

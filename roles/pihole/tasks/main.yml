@@ -1,0 +1,48 @@
+- name: Create pihole project directory
+  ansible.builtin.file:
+    path: /root/pihole
+    state: directory
+    owner: root
+    group: root
+    mode: "0700"
+  become: true
+
+- name: Setup docker-compose file
+  ansible.builtin.template:
+    src: docker-compose.yml.j2
+    dest: /root/pihole/docker-compose.yml
+    owner: root
+    group: root
+    mode: "0600"
+  become: true
+  notify: Restart pihole service
+
+- name: Setup env var file
+  ansible.builtin.template:
+    src: env.j2
+    dest: /root/pihole/.env
+    owner: root
+    group: root
+    mode: "0600"
+  become: true
+  notify: Restart pihole service
+
+- name: Setup systemd service file
+  ansible.builtin.template:
+    src: pihole.service.j2
+    dest: /etc/systemd/system/pihole.service
+    owner: root
+    group: root
+    mode: "0740"
+  become: true
+  notify: Reload systemd daemon
+
+- name: Force handler run
+  ansible.builtin.meta: flush_handlers
+
+- name: Start and enable pihole service
+  ansible.builtin.service:
+    name: pihole
+    state: started
+    enabled: true
+  become: true
