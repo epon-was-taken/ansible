@@ -1,0 +1,6 @@
+users:
+  patrick:
+    password: "$6$wPiAYFeRPpTRwN0r$kp4V0NbTHWIR.lbmp1JFXPrHnh5Uf31vq3KVOB1HyfLJGy4ezGgpWkKqCuCi8zYU2V19AOPOzz/ZXXPesGGV."
+    shell: /bin/zsh
+    groups:
+      - wheel
