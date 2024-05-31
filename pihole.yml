@@ -4,4 +4,4 @@
   hosts: pihole
   roles:
     - core
-    - pihole
+    - docker
