@@ -1,7 +1,0 @@
-users:
-  patrick:
-    password: "$6$Z7K0us3xanU306p3$rdaR8l7dOWIlsT6DQuY/iu.yvwFuwnwjpPtuVPzdpGMESzv.A0f3we9NlH6S0M5KkRgbvHqiaLREAlY1WWGVB/"
-    shell: /bin/zsh
-    groups:
-      - wheel
-    pubkey: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBDMXeD/C2xqM5N0HTVBCiZa1LzLktcUpUN9S8nImDA0"

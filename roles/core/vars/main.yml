@@ -1,6 +1,0 @@
-core_packages:
-  - zsh
-  - vim
-  - btop
-  - ncdu
-  - firewalld
