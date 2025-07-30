@@ -1,0 +1,7 @@
+---
+
+- name: Core Setup for all servers
+  hosts:
+    - all
+  roles:
+    - core

@@ -1,0 +1,13 @@
+---
+
+- name: Reload SSH Daemon
+  ansible.builtin.service:
+    name: sshd
+    state: restarted
+  become: true
+
+- name: Reload Firewalld
+  ansible.builtin.service:
+    name: firewalld
+    state: restarted
+  become: true

@@ -1,0 +1,35 @@
+---
+
+- name: Install RHEL Packages
+  ansible.builtin.dnf:
+    state: present
+    name: "{{ item }}"
+  become: true
+  with_items: "{{ core.packages.rhel }}"
+
+- name: Allow SSH with Firewalld
+  ansible.posix.firewalld:
+    service: ssh
+    state: enabled
+    permanent: true
+    immediate: true
+    offline: true
+  become: true
+  notify: Reload Firewalld
+
+- name: Remove cockpit Service from Firewalld
+  ansible.posix.firewalld:
+    service: cockpit
+    state: disabled
+    permanent: true
+    immediate: true
+    offline: true
+  become: true
+  notify: Reload Firewalld
+
+- name: Start and Enable Firewalld
+  ansible.builtin.service:
+    name: firewalld
+    state: started
+    enabled: true
+  become: true

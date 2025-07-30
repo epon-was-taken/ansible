@@ -1,0 +1,48 @@
+---
+
+- name: Create Users
+  ansible.builtin.user:
+    state: present
+    name: "{{ item.name }}"
+    password: "{{ item.password }}"
+    shell: "{{ item.shell }}"
+    groups: "{{ item.groups }}"
+    create_home: "{{ item.create_home }}"
+  become: true
+  with_items: "{{ core.users }}"
+
+- name: Allow Passwordless Sudo for Wheel Group
+  community.general.sudoers:
+    state: present
+    name: wheel-nopasswd
+    group: wheel
+    commands: ALL
+    nopassword: true
+  become: true
+
+- name: Set SSH Keys
+  ansible.posix.authorized_key:
+    state: present
+    user: "{{ item.name }}"
+    key: "{{ item.key }}"
+  become: true
+  with_items: "{{ core.users }}"
+
+- name: Configure SSH Daemon
+  ansible.builtin.copy:
+    src: ssh-secure.conf
+    dest: /etc/ssh/sshd_config.d/99-secure.conf
+    owner: root
+    group: root
+    mode: "0400"
+  become: true
+  notify: Reload SSH Daemon
+
+- name: Include RHEL Tasks
+  ansible.builtin.include_tasks:
+    file: rhel.yml
+  when: ansible_distribution_file_variety == "RedHat"
+
+# - name: Import AIDE Tasks
+#   ansible.builtin.import_tasks:
+#     file: aide.yml
