@@ -33,3 +33,22 @@
     state: started
     enabled: true
   become: true
+
+- name: Set SELinux to enforcing
+  ansible.posix.selinux:
+    policy: targeted
+    state: enforcing
+  become: true
+
+- name: Check SELinux mode
+  ansible.builtin.command: getenforce
+  register: selinux_mode
+  changed_when: false
+
+- name: Ensure SELinux is enforcing in runtime
+  command: setenforce 1
+  changed_when: false
+  when: ansible_selinux.status != "enforcing"
+  register: setenforce_result
+  failed_when: setenforce_result.rc != 0 and setenforce_result.rc != 1
+  become: true
