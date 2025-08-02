@@ -1,0 +1,60 @@
+---
+
+- name: Create vaultwarden user
+  ansible.builtin.user:
+    name: "{{ vaultwarden.systemd_user.name }}"
+    state: present
+    password: "{{ vaultwarden.systemd_user.password }}"
+    # TODO: Enable after testing is done
+    # shell: /sbin/nologin
+  become: true
+
+- name: Create vaultwarden directories
+  ansible.builtin.file:
+    path: "/home/{{ vaultwarden.systemd_user.name }}/{{ item }}"
+    state: directory
+    owner: "{{ vaultwarden.systemd_user.name }}"
+    group: "{{ vaultwarden.systemd_user.name }}"
+    mode: "0640"
+  become: true
+  with_items:
+    - vw-data
+    - logs
+    - pgdata
+
+- name: Create .env file
+  ansible.builtin.template:
+    src: docker-env.j2
+    dest: "/home/{{ vaultwarden.systemd_user.name }}/.env"
+    owner: "{{ vaultwarden.systemd_user.name }}"
+    group: "{{ vaultwarden.systemd_user.name }}"
+    mode: "0640"
+  become: true
+  notify: Restart Vaultwarden
+
+- name: Create docker-compose file
+  ansible.builtin.template:
+    src: docker-compose.j2
+    dest: "/home/{{ vaultwarden.systemd_user.name }}/compose.yml"
+    owner: "{{ vaultwarden.systemd_user.name }}"
+    group: "{{ vaultwarden.systemd_user.name }}"
+    mode: "0640"
+  become: true
+  notify: Restart Vaultwarden
+
+- name: Create systemd service
+  ansible.builtin.template:
+    src: sytemd-service.j2
+    dest: /etc/systemd/system/vaultwarden.service
+    owner: root
+    group: root
+    mode: "0600"
+  become: true
+  notify: Reload Systemd
+
+- name: Enable and start Vaultwarden Service
+  ansible.builtin.service:
+    name: vaultwarden
+    state: started
+    enabled: true
+  become: true

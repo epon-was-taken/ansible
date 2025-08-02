@@ -1,0 +1,16 @@
+[Unit]
+Description=Vaultwarden Deployment via Docker Compose
+Requires=network-online.target
+After=network-online.target
+
+[Service]
+Type=exec
+WorkingDirectory=/home/{{ vaultwarden.systemd_user.name }}
+ExecStart=/usr/bin/docker compose up --no-build
+ExecStop=/usr/bin/docker compose down
+User={{ vaultwarden.systemd_user.name }}
+Group={{ vaultwarden.systemd_user.name }}
+TimeoutStartSec=0
+
+[Install]
+WantedBy=multi-user.target
