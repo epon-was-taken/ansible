@@ -4,12 +4,16 @@ services:
   postgres:
     image: postgres:16
     volumes:
-      - ./pgdata:/var/lib/postgresql/data
+      - ./pgdata:/var/lib/postgresql/data:Z
+    env_file:
+      - .env
 
   vaultwarden:
     image: vaultwarden/server:{{ vaultwarden.image_tag }}
     container_name: vaultwarden
     volumes:
-      - ./vw-data:/data # the path before the : can be changed
+      - ./vw-data:/data:Z
+    env_file:
+      - .env
     ports:
-      - 8080:80 # you can replace the 11001 with your preferred port
+      - {{ vaultwarden_port }}:80
