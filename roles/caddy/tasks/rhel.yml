@@ -1,0 +1,34 @@
+---
+
+- name: Configure Caddy COPR Repo
+  community.general.copr:
+    name: '@caddy/caddy'
+    state: enabled
+    chroot: "epel-{{ ansible_facts.distribution_major_version }}-{{ ansible_facts.architecture }}"
+  become: true
+
+- name: Install Caddy
+  ansible.builtin.package:
+    name: caddy
+    state: present
+  become: true
+
+- name: Allow HTTP and HTTPS on Firewall
+  ansible.posix.firewalld:
+    service: "{{ item }}"
+    state: enabled
+    permanent: true
+    immediate: true
+    offline: true
+  become: true
+  notify: Reload Firewalld
+  with_items:
+    - http
+    - https
+
+- name: Start and enable Caddy
+  ansible.builtin.service:
+    name: caddy
+    state: started
+    enabled: true
+  become: true
