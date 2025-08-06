@@ -1,0 +1,6 @@
+---
+
+podman_packages:
+  - podman
+  - podman-compose
+  - podman-docker
