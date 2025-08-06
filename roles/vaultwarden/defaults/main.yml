@@ -1,5 +1,3 @@
-vaultwarden:
-  postgresql:
-    database: vaultwarden
-    user: vaultwarden
-    password: defaultpass
+vaultwarden_postgresql_database: vaultwarden
+vaultwarden_postgresql_user: vaultwarden
+vaultwarden_postgresql_password: defaultpassword
