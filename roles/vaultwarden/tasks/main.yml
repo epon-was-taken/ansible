@@ -5,9 +5,20 @@
     name: "{{ vaultwarden.systemd_user.name }}"
     state: present
     password: "{{ vaultwarden.systemd_user.password }}"
-    # TODO: Enable after testing is done
-    # shell: /sbin/nologin
+    shell: /sbin/nologin
   become: true
+
+- name: Check if lingering is already enabled for vaultwarden
+  stat:
+    path: /var/lib/systemd/linger/vaultwarden
+  become: true
+  register: linger_file
+
+- name: Enable lingering for vaultwarden if not already enabled
+  command: loginctl enable-linger vaultwarden
+  become: true
+  changed_when: true
+  when: not linger_file.stat.exists
 
 - name: Create vaultwarden directories
   ansible.builtin.file:
@@ -15,7 +26,7 @@
     state: directory
     owner: "{{ vaultwarden.systemd_user.name }}"
     group: "{{ vaultwarden.systemd_user.name }}"
-    mode: "0640"
+    mode: "0750"
   become: true
   with_items:
     - vw-data
@@ -44,7 +55,7 @@
 
 - name: Create systemd service
   ansible.builtin.template:
-    src: sytemd-service.j2
+    src: systemd-service.j2
     dest: /etc/systemd/system/vaultwarden.service
     owner: root
     group: root
