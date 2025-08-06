@@ -1,18 +1,12 @@
 ---
 
+- name: Include RHEL Tasks
+  ansible.builtin.include_tasks: rhel.yml
+  when: ansible_facts['os_family'] == 'RedHat'
+
 - name: Install podman
   ansible.builtin.package:
-    name: podman
+    name: "{{ item }}"
     state: present
   become: true
-
-- name: Symlink docker to podman
-  ansible.builtin.file:
-    src: /usr/bin/podman
-    dest: /usr/local/bin/docker
-    state: link
-    force: true
-    owner: root
-    group: root
-    mode: "0755"
-  become: true
+  with_items: "{{ podman_packages }}"
