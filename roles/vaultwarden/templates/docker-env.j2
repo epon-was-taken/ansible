@@ -1,22 +1,22 @@
 # POSTGRES VARS
 # =============
 
-POSTGRES_USER={{ vaultwarden.postgresql.user }}
-POSTGRES_PASSWORD={{ vaultwarden.postgresql.password }}
-POSTGRES_DB={{ vaultwarden.postgresql.database }}
+POSTGRES_USER={{ vaultwarden_postgresql_user }}
+POSTGRES_PASSWORD={{ vaultwarden_postgresql_password }}
+POSTGRES_DB={{ vaultwarden_postgresql_database }}
 
 # VAULTWARDEN VARS
 # ================
 
-DATABASE_URL=postgresql://{{ vaultwarden.postgresql.user }}:{{ vaultwarden.postgresql.password }}@postgres:5432/{{ vaultwarden.postgresql.database }}
-DOMAIN=https://vault.asgaard.dev
+DATABASE_URL=postgresql://{{ vaultwarden_postgresql_user }}:{{ vaultwarden_postgresql_password }}@postgres:5432/{{ vaultwarden_postgresql_database }}
+DOMAIN=https://{{ vaultwarden_fqdn | default(ansible_fqdn, true) }}
 SIGNUPS_ALLOWED=false
 
 INVITATION_ORG_NAME="Asgaard Dev - Vaultwarden"
 
 LOG_FILE=logs/vaultwarden.log
 
-ADMIN_TOKEN='$argon2id$v=19$m=65540,t=3,p=4$SMxahGbH4MLh7JiED5k/sBrGCzLIJJjef2ZUs/3PzFk$7PuvyoTzgz2U6FE8zoPWNzr7l9Iy1Uc1aYPjcF9onoc'
+ADMIN_TOKEN=$argon2id$v=19$m=65540,t=3,p=4$SMxahGbH4MLh7JiED5k/sBrGCzLIJJjef2ZUs/3PzFk$7PuvyoTzgz2U6FE8zoPWNzr7l9Iy1Uc1aYPjcF9onoc
 
 # shellcheck disable=SC2034,SC2148
 ## Vaultwarden Configuration File
