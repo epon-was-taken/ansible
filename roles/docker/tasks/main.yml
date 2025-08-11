@@ -1,0 +1,18 @@
+---
+
+# TODO: Add Docker Repo for Rocky Linux 10
+
+- name: Install Docker Packages
+  ansible.builtin.package:
+    name: "{{ item }}"
+    state: present
+  become: true
+  with_items:
+    - "{{ docker_packages }}"
+
+- name: Enable and start Docker service
+  ansible.builtin.service:
+    name: docker
+    state: started
+    enabled: true
+  become: true
