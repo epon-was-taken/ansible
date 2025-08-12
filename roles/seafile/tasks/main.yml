@@ -1,0 +1,93 @@
+---
+
+- name: Find Hetzner volume mount
+  ansible.builtin.set_fact:
+    hetzner_volume_mount: >-
+      {{ ansible_mounts
+         | selectattr('mount', 'match', '^/mnt/HC_Volume_')
+         | map(attribute='mount')
+         | first }}
+
+- name: Create seafile directories
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    owner: root
+    group: root
+    mode: "0750"
+  become: true
+  with_items:
+    - "/opt/seafile"
+    - "{{ hetzner_volume_mount }}/seafile-data"
+    - "{{ hetzner_volume_mount }}/seafile-mysql"
+    - "{{ hetzner_volume_mount }}/seafile-caddy"
+    - "{{ hetzner_volume_mount }}/seadoc-data"
+    - "{{ hetzner_volume_mount }}/notification-data"
+
+- name: Symlink seafile directories to volume
+  ansible.builtin.file:
+    src: "{{ hetzner_volume_mount }}/{{ item }}"
+    dest: "/opt/seafile/{{ item }}"
+    state: link
+  become: true
+  with_items:
+    - seafile-data
+    - seafile-mysql
+    - seafile-caddy
+    - seadoc-data
+    - notification-data
+
+- name: Allow HTTP and HTTPS on Firewall
+  ansible.posix.firewalld:
+    service: "{{ item }}"
+    state: enabled
+    permanent: true
+    immediate: true
+    offline: true
+  become: true
+  notify: Reload Firewalld
+  with_items:
+    - http
+    - https
+
+- name: Create Seafile docker compose files
+  ansible.builtin.copy:
+    src: "{{ item }}"
+    dest: "/opt/seafile/{{ item }}"
+    owner: root
+    group: root
+    mode: "0640"
+  become: true
+  # notify: Restart Seafile
+  with_items:
+    - seadoc.yml
+    - seafile-server.yml
+    - caddy.yml
+
+- name: Create .env File
+  ansible.builtin.template:
+    src: env.j2
+    dest: /opt/seafile/.env
+    owner: root
+    group: root
+    mode: "0640"
+  notify: Restart Seafile
+  become: true
+
+- name: Create systemd service
+  ansible.builtin.copy:
+    src: seafile.service
+    dest: /etc/systemd/system/seafile.service
+    owner: root
+    group: root
+    mode: "0644"
+  become: true
+  notify: Reload Systemd
+
+  # TODO: Enable this after testing
+# - name: Enable and start Seafile Service
+#   ansible.builtin.service:
+#     name: seafile
+#     state: started
+#     enabled: true
+#   become: true
