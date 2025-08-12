@@ -10,3 +10,10 @@
     state: present
   become: true
   with_items: "{{ podman_packages }}"
+
+- name: Ensure docker.io is the only unqualified registry
+  become: true
+  ansible.builtin.lineinfile:
+    path: /etc/containers/registries.conf
+    regexp: '^unqualified-search-registries\s*='
+    line: 'unqualified-search-registries = ["docker.io"]'
