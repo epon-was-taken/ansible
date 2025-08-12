@@ -1,3 +1,9 @@
 ---
 vaultwarden_fqdn: vault.asgaard.dev
 vaultwarden_port: 8080
+
+# EMAIL Settings
+vaultwarden_smtp_host: email-smtp.eu-north-1.amazonaws.com
+vaultwarden_smtp_from_email: vaultwarden@asgaard.dev
+vaultwarden_smtp_from_name: "Vaultwarden | asgaard.dev"
+vaultwarden_smtp_username: AKIA2UC3DLCEDUUUBKX3
