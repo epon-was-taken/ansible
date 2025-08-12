@@ -1,0 +1,12 @@
+---
+
+seafile_fqdn: files.asgaard.dev
+
+seafile_admin_email: hello@patrickreinboth.de
+
+seafile_sever_image: seafileltd/seafile-mc:12.0-latest
+seafile_db_image: mariadb:10.11
+seafile_memcached_image: memcached:1.6.29
+seafile_caddy_image: lucaslorentz/caddy-docker-proxy:2.10.0-alpine
+seafile_seadoc_image: seafileltd/sdoc-server:1.0-latest
+seafile_notification_server_image: seafileltd/notification-server:12.0-latest
