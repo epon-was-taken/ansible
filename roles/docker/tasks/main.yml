@@ -1,6 +1,8 @@
 ---
 
-# TODO: Add Docker Repo for Rocky Linux 10
+- name: Include RHEL Tasks
+  when: ansible_facts['os_family'] == 'RedHat'
+  ansible.builtin.include_tasks: rhel.yml
 
 - name: Install Docker Packages
   ansible.builtin.package:
