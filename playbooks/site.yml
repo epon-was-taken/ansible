@@ -6,31 +6,31 @@
   roles:
     - core
 
-# - name: Setup VaultWarden Servers
-#   hosts:
-#     - vaultwarden_servers
-#   roles:
-#     - podman
-#     - caddy
-#     - vaultwarden
-#   vars_files:
-#     - ../vars/secrets.yml
-#   tasks:
-#     - name: Setup Caddy Config
-#       ansible.builtin.template:
-#         src: templates/caddy_vaultwarden_config.j2
-#         dest: /etc/caddy/Caddyfile
-#         mode: "0644"
-#         owner: root
-#         group: root
-#       become: true
-#       notify: Reload Caddy
-#   handlers:
-#     - name: Reload Caddy
-#       ansible.builtin.service:
-#         name: caddy
-#         state: restarted
-#       become: true
+- name: Setup VaultWarden Servers
+  hosts:
+    - vaultwarden_servers
+  roles:
+    - podman
+    - caddy
+    - vaultwarden
+  vars_files:
+    - ../vars/secrets.yml
+  tasks:
+    - name: Setup Caddy Config
+      ansible.builtin.template:
+        src: templates/caddy_vaultwarden_config.j2
+        dest: /etc/caddy/Caddyfile
+        mode: "0644"
+        owner: root
+        group: root
+      become: true
+      notify: Reload Caddy
+  handlers:
+    - name: Reload Caddy
+      ansible.builtin.service:
+        name: caddy
+        state: restarted
+      become: true
 
 - name: Setup Seafile Servers
   hosts:
