@@ -9,6 +9,7 @@ vaultwarden_admin_token: $argon2id$v=19$m=65540,t=3,p=4$SMxahGbH4MLh7JiED5k/sBrG
 
 # EMAIL Settings
 vaultwarden_smtp_host: email-smtp.eu-north-1.amazonaws.com
+vaultwarden_smtp_port: 587
 vaultwarden_smtp_from_email: vaultwarden@asgaard.dev
 vaultwarden_smtp_from_name: "Vaultwarden | asgaard.dev"
 vaultwarden_smtp_username: AKIA2UC3DLCEDUUUBKX3
