@@ -1,31 +1,11 @@
 ---
 
-- name: Create vaultwarden user
-  ansible.builtin.user:
-    name: "{{ vaultwarden.systemd_user.name }}"
-    state: present
-    password: "{{ vaultwarden.systemd_user.password }}"
-    shell: /sbin/nologin
-  become: true
-
-- name: Check if lingering is already enabled for vaultwarden
-  stat:
-    path: /var/lib/systemd/linger/vaultwarden
-  become: true
-  register: linger_file
-
-- name: Enable lingering for vaultwarden if not already enabled
-  command: loginctl enable-linger vaultwarden
-  become: true
-  changed_when: true
-  when: not linger_file.stat.exists
-
 - name: Create vaultwarden directories
   ansible.builtin.file:
-    path: "/home/{{ vaultwarden.systemd_user.name }}/{{ item }}"
+    path: "/opt/vaultwarten/{{ item }}"
     state: directory
-    owner: "{{ vaultwarden.systemd_user.name }}"
-    group: "{{ vaultwarden.systemd_user.name }}"
+    owner: "root"
+    group: "root"
     mode: "0750"
   become: true
   with_items:
@@ -36,9 +16,9 @@
 - name: Create .env file
   ansible.builtin.template:
     src: docker-env.j2
-    dest: "/home/{{ vaultwarden.systemd_user.name }}/.env"
-    owner: "{{ vaultwarden.systemd_user.name }}"
-    group: "{{ vaultwarden.systemd_user.name }}"
+    dest: "/opt/vaultwarden/.env"
+    owner: "root"
+    group: "root"
     mode: "0640"
   become: true
   notify: Restart Vaultwarden
@@ -46,9 +26,9 @@
 - name: Create docker-compose file
   ansible.builtin.template:
     src: docker-compose.j2
-    dest: "/home/{{ vaultwarden.systemd_user.name }}/compose.yml"
-    owner: "{{ vaultwarden.systemd_user.name }}"
-    group: "{{ vaultwarden.systemd_user.name }}"
+    dest: "/opt/vaultwarden/compose.yml"
+    owner: "root"
+    group: "root"
     mode: "0640"
   become: true
   notify: Restart Vaultwarden
