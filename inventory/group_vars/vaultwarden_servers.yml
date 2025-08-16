@@ -1,4 +1,7 @@
 ---
+
+vaultwarden_image: vaultwarden/server:1.34.3-alpine
+
 vaultwarden_fqdn: vault.asgaard.dev
 vaultwarden_port: 8080
 

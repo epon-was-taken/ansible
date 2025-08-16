@@ -9,7 +9,7 @@ services:
       - .env
 
   vaultwarden:
-    image: vaultwarden/server:{{ vaultwarden.image_tag }}
+    image: {{ vaultwarden_image }}
     container_name: vaultwarden
     volumes:
       - ./vw-data:/data:Z
