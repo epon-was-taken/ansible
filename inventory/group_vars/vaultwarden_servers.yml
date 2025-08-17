@@ -5,8 +5,9 @@ vaultwarden_image: vaultwarden/server:1.34.3-alpine
 vaultwarden_fqdn: vault.asgaard.dev
 vaultwarden_port: 8080
 
-vaultwarden_admin_token: $argon2id$v=19$m=65540,t=3,p=4$SMxahGbH4MLh7JiED5k/sBrGCzLIJJjef2ZUs/3PzFk$7PuvyoTzgz2U6FE8zoPWNzr7l9Iy1Uc1aYPjcF9onoc
+vaultwarden_admin_token: '$argon2id$v=19$m=65540,t=3,p=4$jvgxHbA2ZuTtMKALS/imL0Zwm1a1wmdldMM7Mtrjyl4$FYdY7qxVj8kyZzhu8+MfWe6MioUPFvFEtHRNtposUTE'
 
+vaultwarden_invitation_org_name: "Asgaard"
 # EMAIL Settings
 vaultwarden_smtp_host: email-smtp.eu-north-1.amazonaws.com
 vaultwarden_smtp_port: 587

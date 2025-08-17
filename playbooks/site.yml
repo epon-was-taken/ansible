@@ -10,7 +10,7 @@
   hosts:
     - vaultwarden_servers
   roles:
-    - podman
+    - docker
     - caddy
     - vaultwarden
   vars_files:

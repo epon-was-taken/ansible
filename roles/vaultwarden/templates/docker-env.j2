@@ -18,16 +18,16 @@ DATABASE_URL=postgresql://{{ vaultwarden_postgresql_user }}:{{ vaultwarden_postg
 ### General settings ###
 ########################
 
-DOMAIN=https://{{ vaultwarden_fqdn | default(ansible_fqdn, true) }}
+DOMAIN=https://{{ ('staging.' ~ (vaultwarden_fqdn | default(ansible_fqdn, true))) if 'staging_servers' in group_names else (vaultwarden_fqdn | default(ansible_fqdn, true)) }}
 SIGNUPS_ALLOWED=false
-INVITATION_ORG_NAME="Asgaard Dev - Vaultwarden"
+INVITATION_ORG_NAME={{ vaultwarden_invitation_org_name }}
 
 #########################
 ### Advanced settings ###
 #########################
 
 LOG_FILE=/var/log/vaultwarden/vaultwarden.log
-ADMIN_TOKEN={{ vaultwarden_admin_token }}
+ADMIN_TOKEN='{{ vaultwarden_admin_token }}'
 
 ###########################
 ### SMTP Email settings ###

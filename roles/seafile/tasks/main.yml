@@ -84,10 +84,9 @@
   become: true
   notify: Reload Systemd
 
-  # TODO: Enable this after testing
-# - name: Enable and start Seafile Service
-#   ansible.builtin.service:
-#     name: seafile
-#     state: started
-#     enabled: true
-#   become: true
+- name: Enable and start Seafile Service
+  ansible.builtin.service:
+    name: seafile
+    state: started
+    enabled: true
+  become: true

@@ -6,7 +6,9 @@ After=docker.service
 [Service]
 Type=forking
 RemainAfterExit=yes
-WorkingDirectory=/opt/vaultwarden  
+WorkingDirectory=/opt/vaultwarden
+User=vaultwarden
+Group=vaultwarden
 ExecStart=/usr/bin/docker compose up -d
 ExecStop=/usr/bin/docker compose down
 TimeoutStartSec=0
