@@ -1,11 +1,22 @@
 ---
 
+- name: Create vaultwarden user
+  ansible.builtin.user:
+    name: vaultwarden
+    groups:
+      - docker
+    append: true
+    state: present
+    shell: /sbin/nologin
+    create_home: false
+  become: true
+
 - name: Create vaultwarden directories
   ansible.builtin.file:
-    path: "/opt/vaultwarten/{{ item }}"
+    path: "/opt/vaultwarden/{{ item }}"
     state: directory
-    owner: "root"
-    group: "root"
+    owner: vaultwarden
+    group: vaultwarden
     mode: "0750"
   become: true
   with_items:
@@ -17,8 +28,8 @@
   ansible.builtin.template:
     src: docker-env.j2
     dest: "/opt/vaultwarden/.env"
-    owner: "root"
-    group: "root"
+    owner: vaultwarden
+    group: vaultwarden
     mode: "0640"
   become: true
   notify: Restart Vaultwarden
@@ -27,8 +38,8 @@
   ansible.builtin.template:
     src: docker-compose.j2
     dest: "/opt/vaultwarden/compose.yml"
-    owner: "root"
-    group: "root"
+    owner: vaultwarden
+    group: vaultwarden
     mode: "0640"
   become: true
   notify: Restart Vaultwarden
