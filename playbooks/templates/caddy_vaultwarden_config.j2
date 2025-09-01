@@ -1,4 +1,6 @@
 {{ ('staging.' ~ (vaultwarden_fqdn | default(ansible_fqdn, true))) if 'staging_servers' in group_names else (vaultwarden_fqdn | default(ansible_fqdn, true)) }}
-    reverse_proxy localhost:{{ vaultwarden_port }}
     tls {{ letsencrypt.email }}
-}
+
+    reverse_proxy localhost:{{ vaultwarden_port }} {
+      header_up X-Real-IP {remote_host}
+      }
