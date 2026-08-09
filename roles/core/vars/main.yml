@@ -1,8 +1,8 @@
 core:
   users:
     - name: "preinboth"
-      password: "$6$Uf10/aVBczkmgHhx$8LrXsWvWYD9CE0V2SHkkfL.dWzybOOn3J4KZ7Ixmjr1FxiotE/UduDjuWuPo0ECDAeLSfjYq1Z9EKaShFj4z51"
-      key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBAL7YmNXxsz992UWASzZz7Y2jkgNg5STw/psyQpzQhz preinboth@wotan.asgaard.dev"
+      password: "$2b$12$BUxfklDq15HetUjHlSeWZOj3hfjjwcMuhVxEKb4HloFM0ZXrgCJH."
+      key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICD9HZowVpcbOdJSneZM9CR57uVai7+clgkSExweXkbF preinboth@wotan.asgaard.dev"
       shell: "/bin/bash"
       groups:
         - users

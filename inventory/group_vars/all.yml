@@ -1,6 +1,7 @@
 ---
 
 ansible_user: ansible
+ansible_private_key_file: ~/.ssh/ansible_id_ed25519
 
 letsencrypt:
   email: systems@asgaard.dev
